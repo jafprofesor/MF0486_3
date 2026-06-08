@@ -1,1 +1,17 @@
 tailscale up --authkey=tskey-auth-k7to84RNt511CNTRL-SEkNN6tDzYR6f2w9XDTqYRwEBfi89iKVT
+
+$ports = @(
+  @{Puerto=88;  Servicio='Kerberos'},
+  @{Puerto=135; Servicio='RPC Endpoint Mapper'},
+  @{Puerto=389; Servicio='LDAP'},
+  @{Puerto=445; Servicio='SMB / SYSVOL'},
+  @{Puerto=464; Servicio='Kerberos Password'},
+  @{Puerto=3268;Servicio='Global Catalog'}
+)
+
+foreach ($p in $ports) {
+  $r = Test-NetConnection -ComputerName 10.1.99.60 `
+         -Port $p.Puerto -WarningAction SilentlyContinue
+  $estado = if ($r.TcpTestSucceeded) {'OK'} else {'FALLO'}
+  Write-Host "Puerto $($p.Puerto) ($($p.Servicio)): $estado"
+}
