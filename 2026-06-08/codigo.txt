@@ -1,5 +1,22 @@
 tailscale up --authkey=tskey-auth-k7to84RNt511CNTRL-SEkNN6tDzYR6f2w9XDTqYRwEBfi89iKVT
 
+
+# Configurar DC01 como DNS en todos los adaptadores activos
+Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | ForEach-Object {
+  Set-DnsClientServerAddress -InterfaceIndex $_.InterfaceIndex `
+    -ServerAddresses "10.1.99.60"
+}
+
+# Añadir sufijo de búsqueda para lab.local
+Set-DnsClientGlobalSetting -SuffixSearchList @("lab.local")
+
+# Limpiar la caché DNS
+Clear-DnsClientCache
+ipconfig /flushdns
+
+
+
+
 $ports = @(
   @{Puerto=88;  Servicio='Kerberos'},
   @{Puerto=135; Servicio='RPC Endpoint Mapper'},
