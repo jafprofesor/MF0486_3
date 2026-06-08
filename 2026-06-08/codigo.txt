@@ -1,1 +1,1 @@
-tskey-auth-k7to84RNt511CNTRL-SEkNN6tDzYR6f2w9XDTqYRwEBfi89iKVT
+tailscale up --authkey=tskey-auth-k7to84RNt511CNTRL-SEkNN6tDzYR6f2w9XDTqYRwEBfi89iKVT
